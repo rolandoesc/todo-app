@@ -10,9 +10,9 @@
             <label>Title</label>
             <input v-model="titleText" type='text'>
           </div>
-          <div class='field'>
-            <label>Project</label>
-            <input v-model="projectText" type='text'>
+          <div class="field">
+            <label>End date</label>
+            <datepicker v-model="dueDate"></datepicker>
           </div>
           <div class='ui two button attached buttons'>
             <button class='ui basic blue button' v-on:click="sendForm()">
@@ -29,11 +29,16 @@
 </template>
 
 <script>
+import Datepicker from 'vuejs-datepicker';
+
 export default {
+  components: {
+    Datepicker,
+  },
   data() {
     return {
       titleText: '',
-      projectText: '',
+      dueDate: new Date(),
       isCreating: false,
     };
   },
@@ -45,16 +50,15 @@ export default {
       this.isCreating = false;
     },
     sendForm() {
-      if (this.titleText.length > 0 && this.projectText.length > 0) {
-        const title = this.titleText;
-        const project = this.projectText;
+      if (this.titleText.length > 0) {
+        const name = this.titleText;
+        const endDate = this.dueDate.toUTCString();
         this.$emit('create-todo', {
-          title,
-          project,
+          name,
+          endDate,
           done: false,
         });
         this.titleText = '';
-        this.projectText = '';
         this.isCreating = false;
       }
     },

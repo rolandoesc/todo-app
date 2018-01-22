@@ -24,7 +24,10 @@ export default {
   },
   data() {
     return {
-      todos: [],
+      todos: [{
+        name: '',
+        endDate: new Date(),
+      }],
     };
   },
   methods: {
@@ -33,8 +36,8 @@ export default {
       sweetalert('Sucess!', 'To-Do created!', 'success');
     },
   },
-  created: function () {
-    axios.get('http://front-test.tide.mx/api/task_lists')
+  created() {
+    axios.get('http://front-test.tide.mx/api/tasks')
       .then((response) => {
         this.todos = response.data;
       });
