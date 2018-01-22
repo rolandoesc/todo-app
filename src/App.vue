@@ -1,28 +1,47 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld/>
+    <h1 class="ui dividing centered header">To Do App</h1>
+    <div class="ui three column centered grid">
+      <div class="column">
+        <todo-list v-bind:todos="todos"></todo-list>
+        <create-todo v-on:create-todo="createTodo"></create-todo>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import sweetalert from 'sweetalert';
+import axios from 'axios';
+import TodoList from './components/TodoList';
+import CreateTodo from './components/CreateTodo';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    TodoList,
+    CreateTodo,
+  },
+  data() {
+    return {
+      todos: [],
+    };
+  },
+  methods: {
+    createTodo(newTodo) {
+      this.todos.push(newTodo);
+      sweetalert('Sucess!', 'To-Do created!', 'success');
+    },
+  },
+  created: function () {
+    axios.get('http://front-test.tide.mx/api/task_lists')
+      .then((response) => {
+        this.todos = response.data;
+      });
   },
 };
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
