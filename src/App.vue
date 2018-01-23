@@ -43,8 +43,8 @@ export default {
       sweetalert('Sucess!', 'List created!', 'success');
     },
   },
-  created: function () {
-    axios.get('http://front-test.tide.mx/api/task_lists')
+  created() {
+    axios.get('http://front-test.tide.mx/api/tasks')
       .then((response) => {
         this.lists = response.data;
         this.todos = this.lists[0].tasks;
