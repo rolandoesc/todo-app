@@ -1,15 +1,20 @@
 <template>
   <div>
-      <!--<p class="tasks">
-        Completed Tasks: {{ todos.filter(todo => { return todo.done === true}).length }}
+      <p class="tasks">
+        Completed Tasks: {{ myTodos.filter(todo => { return todo.done === true}).length }}
       </p>
       <p class="tasks">
-        Pending Tasks: {{ todos.filter(todo => { return todo.done === false}).length }}
-      </p>-->
-      <todo v-on:delete-todo="deleteTodo"
-      v-on:complete-todo="completeTodo"
-      v-for="todo in todos" :todo.sync="todo" :key="todo.id">
-      </todo>
+        Pending Tasks: {{ myTodos.filter(todo => { return todo.done === false}).length }}
+      </p>
+      <div class="content">
+        <div v-for="list in myLists" :key="list.creationDate">
+          <h3 class="header tasks">{{ list.name }}</h3>
+        </div>
+        <todo v-on:delete-todo="deleteTodo"
+        v-on:complete-todo="completeTodo"
+        v-for="todo in myTodos" :todo.sync="todo" :key="todo.creationDate">
+        </todo>
+      </div>
   </div>
 </template>
 
@@ -18,7 +23,7 @@ import sweetalert from 'sweetalert';
 import Todo from './Todo';
 
 export default {
-  props: ['todos'],
+  props: ['myTodos', 'myLists'],
   components: {
     Todo,
   },
@@ -34,14 +39,14 @@ export default {
         closeOnConfirm: false,
       },
       () => {
-        const todoIndex = this.todos.indexOf(todo);
-        this.todos.splice(todoIndex, 1);
+        const todoIndex = this.myTodos.indexOf(todo);
+        this.myTodos.splice(todoIndex, 1);
         sweetalert('Deleted!', 'Your To-Do has been deleted.', 'success');
       });
     },
     completeTodo(todo) {
-      const todoIndex = this.todos.indexOf(todo);
-      this.todos[todoIndex].done = true;
+      const todoIndex = this.myTodos.indexOf(todo);
+      this.myTodos[todoIndex].done = true;
       sweetalert('Success!', 'To-Do completed!', 'success');
     },
   },

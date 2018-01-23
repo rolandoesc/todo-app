@@ -2,14 +2,14 @@
   <div class="ui centered card">
       <div class="content" v-show="!isEditing">
           <div class="header">
-              {{ todo.id }}
+              {{ todo.name }}
           </div>
           <div class="meta">
-              {{ todo.name }}
+              {{ todo.endDate }}
           </div>
           <div class="extra content">
               <span class="right floated edit icon" v-on:click="showForm">
-                  <i class="trash icon"></i>
+                  <i class="edit icon"></i>
               </span>
               <span class="right floated trash icon" v-on:click="deleteTodo(todo)">
                   <i class="trash icon"></i>
@@ -20,11 +20,11 @@
           <div class="ui form">
               <div class="field">
                   <label>Title</label>
-                  <input type="text" v-model="todo.title">
+                  <input type="text" v-model="todo.name">
               </div>
               <div class="field">
-                  <label>Project</label>
-                  <input type="text" v-model="todo.project">
+                  <label>Due date</label>
+                  <datepicker v-model="todo.endDate"></datepicker>
               </div>
               <div class="ui two button attached buttons">
                   <button class="ui basic blue button" v-on:click="hideForm">
@@ -40,20 +40,20 @@
       v-on:click="completeTodo(todo)" v-show="!isEditing && !todo.done">
           Pending
       </div>
-      <div class="response">
-        <p>{{imported}}</p>
-      </div>
   </div>
 </template>
 
 <script>
+import Datepicker from 'vuejs-datepicker';
 
 export default {
   props: ['todo'],
+  components: {
+    Datepicker,
+  },
   data() {
     return {
       isEditing: false,
-      imported: '',
     };
   },
   methods: {

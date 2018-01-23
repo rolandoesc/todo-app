@@ -1,18 +1,14 @@
 <template>
   <div class='ui basic content center aligned segment'>
     <button class='ui basic button icon' v-on:click="openForm" v-show="!isCreating">
-      <i class='plus icon'></i>
+      New List<i class='plus icon'></i>
     </button>
     <div class='ui centered card' v-show="isCreating">
       <div class='content'>
         <div class='ui form'>
           <div class='field'>
-            <label>Title</label>
-            <input v-model="titleText" type='text'>
-          </div>
-          <div class="field">
-            <label>End date</label>
-            <datepicker v-model="dueDate"></datepicker>
+            <label>New List Title</label>
+            <input v-model="listTitle" type='text'>
           </div>
           <div class='ui two button attached buttons'>
             <button class='ui basic blue button' v-on:click="sendForm()">
@@ -29,18 +25,10 @@
 </template>
 
 <script>
-import Datepicker from 'vuejs-datepicker';
-
 export default {
-  components: {
-    Datepicker,
-  },
   data() {
     return {
-      titleText: '',
-      projectText: '',
-      dueDate: new Date(),
-      creationDate: new Date(),
+      listTitle: '',
       isCreating: false,
     };
   },
@@ -52,17 +40,14 @@ export default {
       this.isCreating = false;
     },
     sendForm() {
-      if (this.titleText.length > 0) {
+      if (this.listTitle.length > 0) {
         const name = this.titleText;
-        const endDate = this.dueDate.toUTCString();
-        const creationDate = this.creationDate.toUTCString();
-        this.$emit('create-todo', {
+        const creationDate = new Date();
+        this.$emit('create-list', {
           name,
-          endDate,
           creationDate,
-          done: false,
         });
-        this.titleText = '';
+        this.listTitle = '';
         this.isCreating = false;
       }
     },
